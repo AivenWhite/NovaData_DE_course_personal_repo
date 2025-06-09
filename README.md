@@ -1,5 +1,5 @@
 # NovaData_DE_course_personal_repo
 
 ## Косачёв Иван Григорьевич
-## Рабочий на заводе
+## Data Engineer
 ## По материалу всё понятно

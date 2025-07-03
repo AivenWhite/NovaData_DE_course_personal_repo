@@ -3,7 +3,7 @@ services:
     build:
       context: ./postgres
     container_name: postgres_db
-    restart: always
+    restart: on-failure
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
@@ -19,7 +19,7 @@ services:
   clickhouse:
     image: clickhouse/clickhouse-server:latest
     container_name: clickhouse_db
-    restart: always
+    restart: on-failure
     ports:
       - "8124:8123"
       - "9001:9000"
@@ -37,7 +37,7 @@ services:
   mongo:
     image: mongo:6
     container_name: mongo_db
-    restart: always
+    restart: on-failure
     ports:
       - "27018:27017"
     volumes:

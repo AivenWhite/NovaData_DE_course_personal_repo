@@ -1,5 +1,5 @@
 -- Создание таблицы users
-CREATE TABLE hw.users (
+CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     name TEXT,
     email TEXT,
@@ -9,7 +9,7 @@ CREATE TABLE hw.users (
 
 
 -- Создание таблицы users_audit
-CREATE TABLE hw.users_audit (
+CREATE TABLE users_audit (
     id SERIAL PRIMARY KEY,
     user_id INTEGER,
     changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -26,19 +26,19 @@ RETURNS TRIGGER AS $$
 BEGIN
     -- Проверка изменения поля name
     IF NEW.name IS DISTINCT FROM OLD.name THEN
-        INSERT INTO hw.users_audit (user_id, changed_by, field_changed, old_value, new_value)
+        INSERT INTO users_audit (user_id, changed_by, field_changed, old_value, new_value)
         VALUES (OLD.id, current_user, 'name', OLD.name, NEW.name);
     END IF;
 
     -- Проверка изменения поля email
     IF NEW.email IS DISTINCT FROM OLD.email THEN
-        INSERT INTO hw.users_audit (user_id, changed_by, field_changed, old_value, new_value)
+        INSERT INTO users_audit (user_id, changed_by, field_changed, old_value, new_value)
         VALUES (OLD.id, current_user, 'email', OLD.email, NEW.email);
     END IF;
 
     -- Проверка изменения поля role
     IF NEW.role IS DISTINCT FROM OLD.role THEN
-        INSERT INTO hw.users_audit (user_id, changed_by, field_changed, old_value, new_value)
+        INSERT INTO users_audit (user_id, changed_by, field_changed, old_value, new_value)
         VALUES (OLD.id, current_user, 'role', OLD.role, NEW.role);
     END IF;
 
@@ -48,13 +48,13 @@ $$ LANGUAGE plpgsql;
 
 -- Создание триггера на изменения в таблице users
 CREATE TRIGGER user_change_trigger
-BEFORE UPDATE ON hw.users
+BEFORE UPDATE ON users
 FOR EACH ROW
 EXECUTE FUNCTION log_user_changes();
 
 
 -- Добавление данных в таблицу users
-insert into hw.users (name, email, role)
+insert into users (name, email, role)
 values 
 ('Ivan Ivanov', 'ivan@example.com', 'Junior DE'),
 ('Anna Petrova', 'anna@example.com', 'Junior DA');
@@ -65,7 +65,7 @@ select * from users;
 
 
 -- Изменение данных в таблице users
-update hw.users u 
+update users u 
 set role = 'Middle DA'
 where name = 'Anna Petrova';
 

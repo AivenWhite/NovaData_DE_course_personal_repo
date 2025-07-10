@@ -29,3 +29,6 @@ for message in consumer:
     client.command(
         f"INSERT INTO user_logins (username, event_type, event_time) VALUES ('{data['user']}', '{data['event']}', toDateTime({data['timestamp']}))"
     )
+
+client.close()
+consumer.close()

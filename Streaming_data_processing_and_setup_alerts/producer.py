@@ -30,3 +30,6 @@ for row in rows:
     conn.commit()
     print("Sent:", data)
     time.sleep(0.5)
+
+cursor.close()
+conn.close()
